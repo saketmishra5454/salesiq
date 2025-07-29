@@ -12,7 +12,7 @@ const Customers = () => {
     try {
       const token = localStorage.getItem("authToken");
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      const res = await axios.get("http://localhost:5000/api/customers", config);
+      const res = await axios.get("/api/customers", config);
       setCustomers(res.data);
     } catch (error) {
       console.error("Error fetching customers:", error);
@@ -28,7 +28,7 @@ const Customers = () => {
           try {
             const token = localStorage.getItem("authToken");
             const config = { headers: { Authorization: `Bearer ${token}` } };
-            await axios.delete(`http://localhost:5000/api/customers/${id}`, config);
+            await axios.delete(`/api/customers/${id}`, config);
             toast.success("✅ Customer deleted successfully");
             fetchCustomers();
           } catch (error) {

@@ -14,8 +14,8 @@ const Sales = () => {
       const config = { headers: { Authorization: `Bearer ${token}` } };
 
       const [custRes, prodRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/customers", config),
-        axios.get("http://localhost:5000/api/products", config),
+        axios.get("/api/customers", config),
+        axios.get("/api/products", config),
       ]);
 
       setCustomers(custRes.data);
@@ -68,7 +68,7 @@ const Sales = () => {
     };
 
     try {
-      await axios.post("http://localhost:5000/api/sales", payload, config);
+      await axios.post("/api/sales", payload, config);
       alert("✅ Sale recorded!");
       setItems([{ product: "", quantity: 1 }]);
       setSelectedCustomer("");

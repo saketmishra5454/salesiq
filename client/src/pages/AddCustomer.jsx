@@ -17,7 +17,7 @@ const AddCustomer = () => {
       const token = localStorage.getItem("authToken");
       const config = { headers: { Authorization: `Bearer ${token}` } };
 
-      await axios.post("http://localhost:5000/api/customers", customer, config);
+      await axios.post("/api/customers", customer, config);
       alert("Customer added successfully");
       navigate("/customers");
     } catch (err) {

@@ -18,7 +18,7 @@ const EditCustomer = () => {
       try {
         const token = localStorage.getItem("authToken");
         const config = { headers: { Authorization: `Bearer ${token}` } };
-        const res = await axios.get(`http://localhost:5000/api/customers/${id}`, config);
+        const res = await axios.get(`/api/customers/${id}`, config);
         setCustomer(res.data);
       } catch (error) {
         console.error("Failed to fetch customer:", error);
@@ -40,7 +40,7 @@ const EditCustomer = () => {
     try {
       const token = localStorage.getItem("authToken");
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      await axios.put(`http://localhost:5000/api/customers/${id}`, customer, config);
+      await axios.put(`/api/customers/${id}`, customer, config);
       toast.success("✅ Customer updated successfully");
       navigate("/customers");
     } catch (error) {

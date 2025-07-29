@@ -14,7 +14,7 @@ const SalesHistory = () => {
       try {
         const token = localStorage.getItem("authToken");
         const config = { headers: { Authorization: `Bearer ${token}` } };
-        const res = await axios.get("http://localhost:5000/api/sales", config);
+        const res = await axios.get("/api/sales", config);
 
         // Map through each sale and populate item names
         const populatedSales = await Promise.all(
@@ -32,7 +32,7 @@ const SalesHistory = () => {
 
                 try {
                   const productRes = await axios.get(
-                    `http://localhost:5000/api/products/${item.product}`,
+                    `/api/products/${item.product}`,
                     config
                   );
                   return {

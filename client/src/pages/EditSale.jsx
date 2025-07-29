@@ -22,13 +22,13 @@ const EditSale = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const saleRes = await axios.get(`http://localhost:5000/api/sales/${id}`);
+        const saleRes = await axios.get(`/api/sales/${id}`);
         setSale(saleRes.data);
 
-        const productRes = await axios.get("http://localhost:5000/api/products");
+        const productRes = await axios.get("/api/products");
         setProducts(productRes.data);
 
-        const customerRes = await axios.get("http://localhost:5000/api/customers");
+        const customerRes = await axios.get("/api/customers");
         setCustomers(customerRes.data);
       } catch (err) {
         console.error("Error fetching sale info", err);
@@ -46,7 +46,7 @@ const EditSale = () => {
     e.preventDefault();
 
     try {
-      await axios.put(`http://localhost:5000/api/sales/${id}`, sale);
+      await axios.put(`/api/sales/${id}`, sale);
       alert("Sale updated successfully");
       navigate("/sales");
     } catch (err) {

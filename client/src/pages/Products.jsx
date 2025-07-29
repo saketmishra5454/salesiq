@@ -18,7 +18,7 @@ const Products = () => {
             Authorization: `Bearer ${token}`,
           },
         };
-        const res = await axios.get("http://localhost:5000/api/products", config);
+        const res = await axios.get("/api/products", config);
         setProducts(res.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -40,7 +40,7 @@ const Products = () => {
         onClick: async () => {
           try {
             const token = localStorage.getItem("authToken");
-            await axios.delete(`http://localhost:5000/api/products/${id}`, {
+            await axios.delete(`/api/products/${id}`, {
               headers: { Authorization: `Bearer ${token}` },
             });
             setProducts(products.filter((p) => p._id !== id));

@@ -29,7 +29,7 @@ const AddProduct = () => {
         }
       };
 
-      const res = await axios.post("http://localhost:5000/api/products", product, config);
+      const res = await axios.post("/api/products", product, config);
       toast.success(res.data.message || "Product added!");
       setProduct({ name: "", price: "", stock: "" });
       navigate("/products");

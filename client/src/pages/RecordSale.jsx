@@ -25,7 +25,7 @@ const RecordSale = () => {
       try {
         const token = localStorage.getItem("authToken");
         const config = { headers: { Authorization: `Bearer ${token}` } };
-        const res = await axios.get("http://localhost:5000/api/products", config);
+        const res = await axios.get("/api/products", config);
         setProducts(res.data);
       } catch (err) {
         console.error("Error loading products:", err);
@@ -89,7 +89,7 @@ const RecordSale = () => {
         phone: customerPhone,
       };
 
-      const customerRes = await axios.post("http://localhost:5000/api/customers", newCustomer, config);
+      const customerRes = await axios.post("/api/customers", newCustomer, config);
       const customerId = customerRes.data.customer._id;
 
       const sale = {
@@ -105,7 +105,7 @@ const RecordSale = () => {
         date,
       };
 
-      await axios.post("http://localhost:5000/api/sales", sale, config);
+      await axios.post("/api/sales", sale, config);
 
       toast.success("✅ Sale recorded successfully!");
       generateInvoice(sale);
@@ -224,7 +224,7 @@ const RecordSale = () => {
       reader.onloadend = async () => {
         const base64data = reader.result;
         try {
-          await axios.post("http://localhost:5000/api/send-invoice", {
+          await axios.post("/api/send-invoice", {
             to: sale.customerEmail,
             subject: `🧾 Your Invoice from Saket Enterprises`,
             text: `Dear ${sale.customerName},\n\nThank you for shopping with us!\nAttached is your invoice.\n\nWarm regards,\nSaket Enterprises`,

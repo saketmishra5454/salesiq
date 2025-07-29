@@ -65,9 +65,9 @@ const Dashboard = () => {
         };
 
         const [productsRes, customersRes, salesRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/products", config),
-          axios.get("http://localhost:5000/api/customers", config),
-          axios.get("http://localhost:5000/api/sales", config),
+          axios.get("/api/products", config),
+          axios.get("/api/customers", config),
+          axios.get("/api/sales", config),
         ]);
 
         console.table(productsRes.data)

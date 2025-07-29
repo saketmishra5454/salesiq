@@ -13,7 +13,7 @@ const Invoice = () => {
       try {
         const token = localStorage.getItem("authToken"); // assuming auth
         const config = { headers: { Authorization: `Bearer ${token}` } };
-        const res = await axios.get("http://localhost:5000/api/sales", config);
+        const res = await axios.get("/api/sales", config);
         const found = res.data.find((s) => s._id === id);
         setSale(found);
       } catch (err) {

@@ -13,7 +13,7 @@ const EditProduct = () => {
       try {
         const token = localStorage.getItem("authToken");
         const config = { headers: { Authorization: `Bearer ${token}` } };
-        const res = await axios.get(`http://localhost:5000/api/products/${id}`, config);
+        const res = await axios.get(`/api/products/${id}`, config);
         setProduct(res.data);
       } catch (err) {
         console.error("Error fetching product", err);
@@ -34,7 +34,7 @@ const EditProduct = () => {
       const config = { headers: { Authorization: `Bearer ${token}` } };
 
       console.log("Sending Update Payload:", product); // ✅ Debug
-      await axios.put(`http://localhost:5000/api/products/${id}`, product, config);
+      await axios.put(`/api/products/${id}`, product, config);
 
       toast.success("✅ Product updated successfully");
       navigate("/products");
