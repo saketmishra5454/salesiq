@@ -16,7 +16,7 @@ const Customers = () => {
       setCustomers(res.data);
     } catch (error) {
       console.error("Error fetching customers:", error);
-      toast.error("❌ Failed to fetch customers");
+      toast.error("Failed to fetch customers");
     }
   };
 
@@ -29,11 +29,11 @@ const Customers = () => {
             const token = localStorage.getItem("authToken");
             const config = { headers: { Authorization: `Bearer ${token}` } };
             await axios.delete(`/api/customers/${id}`, config);
-            toast.success("✅ Customer deleted successfully");
+            toast.success("Customer deleted successfully");
             fetchCustomers();
           } catch (error) {
             console.error("Error deleting customer:", error);
-            toast.error("❌ Failed to delete customer");
+            toast.error("Failed to delete customer");
           }
         },
       },

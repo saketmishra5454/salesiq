@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Pencil, Trash2 } from "lucide-react";
-import { toast, Toaster } from "sonner"; // ✅ Sonner for modern toasts
+import { toast, Toaster } from "sonner"; 
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -57,7 +57,7 @@ const Products = () => {
 
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
-        <h2 className="text-2xl font-bold text-gray-800">📦 Product List</h2>
+        <h2 className="text-2xl font-bold text-gray-800">📦Product List</h2>
         <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
           <input
             type="text"

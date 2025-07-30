@@ -22,7 +22,7 @@ const EditCustomer = () => {
         setCustomer(res.data);
       } catch (error) {
         console.error("Failed to fetch customer:", error);
-        toast.error("❌ Failed to load customer data");
+        toast.error("Failed to load customer data");
       }
     };
     fetchCustomer();
@@ -41,11 +41,11 @@ const EditCustomer = () => {
       const token = localStorage.getItem("authToken");
       const config = { headers: { Authorization: `Bearer ${token}` } };
       await axios.put(`/api/customers/${id}`, customer, config);
-      toast.success("✅ Customer updated successfully");
+      toast.success("Customer updated successfully");
       navigate("/customers");
     } catch (error) {
       console.error("Update failed:", error);
-      toast.error("❌ Failed to update customer");
+      toast.error("Failed to update customer");
     }
   };
 

@@ -12,119 +12,120 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    // Basic frontend validation (optional, but good practice)
+
     if (!username || !password) {
       toast.error("Username and password are required.");
       return;
     }
-    if (password.length < 6) { // Example validation
-        toast.error("Password must be at least 6 characters long.");
-        return;
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long.");
+      return;
     }
 
     try {
-      // Ensure the URL is correct relative to your API base
-      // If your API is on a different domain/port, use the full URL:
-      // const res = await axios.post("http://localhost:5000/api/auth/register", { // Example
       const res = await axios.post("/api/auth/register", {
         username,
         password,
       });
 
-      // You might want to automatically log in the user after registration,
-      // or simply redirect them to login with a success message.
-      // Current behavior (redirect to login) is fine as per your original code.
-      toast.success("Registration successful ✅ Welcome to SalesIQ! Please log in.");
+      toast.success("Registration successful ✅ Please log in.");
       navigate("/login");
     } catch (err) {
-      // Log the full error to the console for more details during development
       console.error("Registration error:", err);
-
-      // Extract specific message from backend if available, otherwise use a generic one
-      toast.error(err.response?.data?.message || "Registration failed ❌ Please try again or contact support.");
+      toast.error(
+        err.response?.data?.message ||
+          "Registration failed ❌ Please try again."
+      );
     }
   };
 
   return (
-    <div className="relative flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 via-emerald-950 to-teal-950 overflow-hidden">
-      {/* Subtle Background Pattern */}
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(#ffffff05_1px,transparent_1px)] [background-size:16px_16px]"></div>
-
-      {/* Enhanced Animated Glowing Blobs */}
-      <div className="absolute inset-0 z-10 opacity-70">
-        <div className="absolute top-[10%] left-[10%] w-80 h-80 bg-green-500 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob" style={{'--x-offset': '40px', '--y-offset': '-60px', '--scale': '1.2', animationDuration: '9s'}}></div>
-        <div className="absolute top-[60%] left-[5%] w-72 h-72 bg-lime-500 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob" style={{'--x-offset': '-50px', '--y-offset': '30px', '--scale': '1.15', animationDuration: '10s', animationDelay: '2s'}}></div>
-        <div className="absolute top-[30%] right-[10%] w-96 h-96 bg-teal-500 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob" style={{'--x-offset': '70px', '--y-offset': '40px', '--scale': '1.25', animationDuration: '11s', animationDelay: '4s'}}></div>
-        <div className="absolute bottom-[10%] right-[20%] w-64 h-64 bg-cyan-500 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob" style={{'--x-offset': '-30px', '--y-offset': '-50px', '--scale': '1.1', animationDuration: '8s', animationDelay: '6s'}}></div>
-      </div>
+    <div className="fixed inset-0 flex justify-center items-start pt-24 bg-gradient-to-br from-gray-900 via-blue-950 to-purple-950 overflow-auto">
 
       <Toaster richColors position="top-center" expand={true} />
+
       <form
         onSubmit={handleRegister}
-        className="relative z-20 bg-white bg-opacity-10 backdrop-filter backdrop-blur-xl border border-white border-opacity-30 shadow-3xl rounded-3xl p-10 w-full max-w-sm mx-4 transform transition-all duration-500 hover:scale-[1.01] overflow-hidden"
+        className="relative z-20 bg-white/10 backdrop-filter backdrop-blur-xl rounded-3xl p-10 w-full max-w-sm mx-4 
+                   shadow-[0_8px_32px_rgba(0,0,0,0.6)] border border-transparent 
+                   hover:border-green-400 hover:shadow-[0_12px_40px_rgba(16,185,129,0.4)] 
+                   transition-all duration-500 transform hover:-translate-y-1"
       >
-        <div className="flex flex-col items-center justify-center mb-8">
-          <ShoppingCart size={52} className="text-amber-400 drop-shadow-lg animate-bounce-subtle" />
-          <h2 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-amber-300 to-amber-500">
+        <div className="flex flex-col items-center justify-center mb-5">
+          <ShoppingCart
+            size={52}
+            className="text-green-400 drop-shadow-lg animate-bounce-subtle"
+          />
+          <h2 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-teal-500">
             SalesIQ
           </h2>
-          <p className="text-gray-600 text-base mt-2 font-light text-center">
-            Your powerful Sales Management Dashboard
+          <div className="w-20 h-1 bg-gradient-to-r from-green-400 to-teal-500 rounded-full mt-1 animate-pulse"></div>
+          <p className="text-gray-300 text-base mt-4 font-light text-center">
+            A Powerful Sales Management System
           </p>
         </div>
-        <p className="text-gray-600 text-xl font-semibold text-center">
-          Create Your Account
+
+        <p className="text-gray-200 text-xl font-bold mb-5 text-center">
+          Register Now
         </p>
 
-        <div className="relative mb-5">
-          <User size={22} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+        <div className="relative mb-4">
+          <User
+            size={22}
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-400"
+          />
           <input
             type="text"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-15 text-white placeholder-gray-400 rounded-xl border border-white border-opacity-20 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all duration-200 text-lg shadow-inner-custom"
+            className="w-full pl-12 pr-4 py-3 bg-white/15 text-white placeholder-gray-300 rounded-xl 
+                       border border-transparent focus:border-green-400 focus:ring-2 focus:ring-green-400 
+                       focus:outline-none transition-all duration-300 text-lg shadow-inner-custom"
             required
           />
         </div>
-      <div className="relative mb-8">
-                <Lock size={22} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-15 text-gray-600 placeholder-gray-400 rounded-xl border border-white border-opacity-20 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:border-transparent transition-all duration-200 text-lg shadow-inner-custom" // Changed text-white to text-gray-100, placeholder to gray-400
-                  required
-                />
-              </div>
-      
+
+        <div className="relative mb-8">
+          <Lock
+            size={22}
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-green-400"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full pl-12 pr-4 py-3 bg-white/15 text-white placeholder-gray-300 rounded-xl 
+                       border border-transparent focus:border-teal-400 focus:ring-2 focus:ring-teal-400 
+                       focus:outline-none transition-all duration-300 text-lg shadow-inner-custom"
+            required
+          />
+        </div>
+
         <button
           type="submit"
-          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-green-700 to-teal-800 text-white font-bold py-4 rounded-xl shadow-lg hover:from-green-800 hover:to-teal-900 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-gray-900 text-lg"
+          className="w-full flex items-center justify-center gap-2 
+                     bg-gradient-to-r from-green-600 via-emerald-600 to-teal-700 
+                     text-white font-bold py-4 rounded-xl shadow-lg 
+                     hover:from-emerald-600 hover:to-teal-800 
+                     transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl"
         >
           <UserPlus size={22} /> Register
         </button>
 
         <p className="mt-8 text-center text-gray-400 text-opacity-80 text-sm">
           Already have an account?{" "}
-          <Link to="/login" className="text-amber-400 hover:underline font-semibold transition-colors">
+          <Link
+            to="/login"
+            className="text-green-400 hover:underline font-semibold transition-colors"
+          >
             Login here
           </Link>
         </p>
       </form>
 
-      {/* Tailwind CSS keyframes for custom animations (same as Login.js) */}
       <style>{`
-        @keyframes blob {
-          0%, 100% { transform: translate(var(--x-offset-start, 0), var(--y-offset-start, 0)) scale(var(--scale-start, 1)); }
-          33% { transform: translate(var(--x-offset-mid1, 30px), var(--y-offset-mid1, -50px)) scale(var(--scale-mid1, 1.1)); }
-          66% { transform: translate(var(--x-offset-mid2, -20px), var(--y-offset-mid2, 20px)) scale(var(--scale-mid2, 0.9)); }
-        }
-        .animate-blob {
-          animation: blob var(--animation-duration, 7s) infinite alternate ease-in-out;
-        }
-
         @keyframes bounce-subtle {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-5px); }
@@ -132,14 +133,8 @@ const Register = () => {
         .animate-bounce-subtle {
           animation: bounce-subtle 3s infinite ease-in-out;
         }
-
-        /* Custom inner shadow for inputs */
         .shadow-inner-custom {
           box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-        /* Custom outer shadow for form (more pronounced) */
-        .shadow-3xl {
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
         }
       `}</style>
     </div>

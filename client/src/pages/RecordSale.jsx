@@ -56,7 +56,7 @@ const RecordSale = () => {
 
     setCart([...cart, newItem]);
     setForm({ ...form, productId: "", quantity: 1 });
-    toast.success("✅ Product added to basket");
+    toast.success("Product added to basket");
   };
 
   // Remove from cart
@@ -107,7 +107,7 @@ const RecordSale = () => {
 
       await axios.post("/api/sales", sale, config);
 
-      toast.success("✅ Sale recorded successfully!");
+      toast.success("Sale recorded successfully!");
       generateInvoice(sale);
 
       setForm({
@@ -121,7 +121,7 @@ const RecordSale = () => {
       setCart([]);
     } catch (err) {
       console.error("Error recording sale:", err);
-      toast.error("❌ Failed to record sale");
+      toast.error("Failed to record sale");
     }
   };
 
@@ -230,7 +230,7 @@ const RecordSale = () => {
             text: `Dear ${sale.customerName},\n\nThank you for shopping with us!\nAttached is your invoice.\n\nWarm regards,\nSaket Enterprises`,
             attachment: base64data,
           });
-          toast.success("✅ Invoice emailed successfully");
+          toast.success("Invoice emailed successfully");
         } catch (err) {
           toast.error("Failed to send invoice");
           console.error("Email error:", err);

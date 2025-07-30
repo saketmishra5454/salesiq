@@ -17,7 +17,7 @@ const EditProduct = () => {
         setProduct(res.data);
       } catch (err) {
         console.error("Error fetching product", err);
-        toast.error("❌ Failed to load product");
+        toast.error("Failed to load product");
       }
     };
     fetchProduct();
@@ -33,14 +33,14 @@ const EditProduct = () => {
       const token = localStorage.getItem("authToken");
       const config = { headers: { Authorization: `Bearer ${token}` } };
 
-      console.log("Sending Update Payload:", product); // ✅ Debug
+      console.log("Sending Update Payload:", product);
       await axios.put(`/api/products/${id}`, product, config);
 
-      toast.success("✅ Product updated successfully");
+      toast.success("Product updated successfully");
       navigate("/products");
     } catch (err) {
       console.error("Failed to update product", err.response?.data || err.message);
-      toast.error("❌ Failed to update product");
+      toast.error("Failed to update product");
     }
   };
 
@@ -80,7 +80,7 @@ const EditProduct = () => {
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
         >
-          ✅ Update
+          ✅Update
         </button>
       </form>
     </div>
