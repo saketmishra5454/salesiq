@@ -55,7 +55,7 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
           <ShoppingCart
-            size={32}
+            size={30}
             className="text-yellow-400 group-hover:scale-105 transition-transform"
           />
           <h1 className="text-xl sm:text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">
