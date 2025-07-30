@@ -33,7 +33,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-blue-950 to-purple-950">
+    <div className="fixed inset-0 flex justify-center items-start pt-24 bg-gradient-to-br from-gray-900 via-blue-950 to-purple-950 overflow-auto">
+
       <Toaster richColors position="top-center" expand={true} />
 
       <form
@@ -61,7 +62,7 @@ const Login = () => {
           </p>
         </div>
 
-        <p className="text-gray-200 text-lg sm:text-xl font-bold mb-5 text-center">
+        <p className="text-gray-200 text-lg sm:text-xl font-bold mb-6 text-center">
           Admin Login
         </p>
 
@@ -85,7 +86,7 @@ const Login = () => {
           />
         </div>
 
-        <div className="relative mb-6">
+        <div className="relative mb-8">
           <Lock
             size={20}
             className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-400"
