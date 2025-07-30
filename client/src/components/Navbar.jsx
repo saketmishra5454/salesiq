@@ -50,15 +50,15 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white shadow-lg px-4 sm:px-6 py-3 sticky top-0 z-50">
+    <nav className="bg-gradient-to-r from-gray-700 to-indigo-800 text-white shadow-lg px-4 sm:px-6 py-7 sticky top-0 z-50">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
           <ShoppingCart
-            size={28}
+            size={32}
             className="text-yellow-400 group-hover:scale-105 transition-transform"
           />
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 to-amber-300">
+          <h1 className="text-xl sm:text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">
             SalesIQ
           </h1>
         </Link>
@@ -99,7 +99,7 @@ const Navbar = () => {
             {isLoggedIn ? (
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-1.5 px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-full shadow-md transition-all"
+                className="flex items-center gap-1.5 px-4 py-1.5 bg-red-600 hover:bg-red-00 text-white text-sm font-medium rounded-full shadow-md transition-all"
               >
                 <LogOut size={18} /> Logout
               </button>

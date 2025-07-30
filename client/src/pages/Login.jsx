@@ -58,7 +58,7 @@ const Login = () => {
           </p>
         </div>
 
-        <p className="text-grey text-xl font-bold mb-2 text-center">
+        <p className="text-gray-600 text-xl font-bold mb-2 text-center">
           Admin Login
         </p>
 

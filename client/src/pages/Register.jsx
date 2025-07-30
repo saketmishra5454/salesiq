@@ -72,7 +72,7 @@ const Register = () => {
             Your powerful Sales Management Dashboard
           </p>
         </div>
-        <p className="text-white text-xl font-semibold text-center">
+        <p className="text-gray-600 text-xl font-semibold text-center">
           Create Your Account
         </p>
 
