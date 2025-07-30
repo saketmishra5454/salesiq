@@ -14,9 +14,7 @@ const Products = () => {
       try {
         const token = localStorage.getItem("authToken");
         const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         };
         const res = await axios.get("/api/products", config);
         setProducts(res.data);
@@ -25,7 +23,6 @@ const Products = () => {
         toast.error("Failed to fetch products");
       }
     };
-
     fetchProducts();
   }, []);
 
@@ -58,68 +55,72 @@ const Products = () => {
     <div className="p-6">
       <Toaster richColors position="top-center" />
 
-      <div className="flex justify-between items-center mb-6">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
         <h2 className="text-2xl font-bold text-gray-800">📦 Product List</h2>
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
           <input
             type="text"
             placeholder="Search products..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="border border-gray-300 px-3 py-2 rounded shadow-sm focus:outline-none"
+            className="border border-gray-300 px-3 py-2 rounded shadow-sm focus:outline-none focus:ring focus:ring-blue-300 w-full sm:w-64"
           />
           <Link
             to="/add-product"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-all"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-all text-center"
           >
             ➕ Add Product
           </Link>
         </div>
       </div>
 
+      {/* Table Section */}
       {filteredProducts.length === 0 ? (
         <p className="text-gray-600">No products found.</p>
       ) : (
-        <table className="w-full border border-gray-300 rounded shadow overflow-hidden">
-          <thead>
-            <tr className="bg-blue-600 text-white">
-              <th className="p-3 text-left">#</th>
-              <th className="p-3 text-left">Name</th>
-              <th className="p-3 text-left">Price</th>
-              <th className="p-3 text-left">Stock</th>
-              <th className="p-3 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredProducts.map((product, index) => (
-              <tr
-                key={product._id}
-                className="border-t hover:bg-gray-50 text-sm text-gray-800"
-              >
-                <td className="p-3">{index + 1}</td>
-                <td className="p-3">{product.name}</td>
-                <td className="p-3">₹{product.price}</td>
-                <td className="p-3">{product.stock}</td>
-                <td className="p-3">
-                  <div className="flex justify-center gap-3">
-                    <Link
-                      to={`/edit-product/${product._id}`}
-                      className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
-                    >
-                      <Pencil size={16} /> Edit
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(product._id)}
-                      className="flex items-center gap-1 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
-                    >
-                      <Trash2 size={16} /> Delete
-                    </button>
-                  </div>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full border border-gray-300 rounded shadow overflow-hidden text-sm">
+            <thead>
+              <tr className="bg-blue-600 text-white">
+                <th className="p-3 text-left">#</th>
+                <th className="p-3 text-left">Name</th>
+                <th className="p-3 text-left">Price</th>
+                <th className="p-3 text-left">Stock</th>
+                <th className="p-3 text-center">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredProducts.map((product, index) => (
+                <tr
+                  key={product._id}
+                  className="border-t hover:bg-gray-50 transition"
+                >
+                  <td className="p-3">{index + 1}</td>
+                  <td className="p-3">{product.name}</td>
+                  <td className="p-3">₹{product.price}</td>
+                  <td className="p-3">{product.stock}</td>
+                  <td className="p-3">
+                    <div className="flex flex-wrap justify-center gap-2">
+                      <Link
+                        to={`/edit-product/${product._id}`}
+                        className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
+                      >
+                        <Pencil size={16} /> Edit
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(product._id)}
+                        className="flex items-center gap-1 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+                      >
+                        <Trash2 size={16} /> Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
