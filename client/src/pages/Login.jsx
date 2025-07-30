@@ -22,7 +22,7 @@ const Login = () => {
       localStorage.setItem("authToken", res.data.token);
       localStorage.setItem("username", res.data.username);
 
-      toast.success("Login successfully🎉 Welcome SalesIQ!");
+      toast.success("Login Successfully🎉");
       navigate("/");
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed ❌ Please check your credentials.");

@@ -16,33 +16,41 @@ const SalesHistory = () => {
         const config = { headers: { Authorization: `Bearer ${token}` } };
         const res = await axios.get("/api/sales", config);
 
-        // Map through each sale and populate item names
+        // Populate item names safely
         const populatedSales = await Promise.all(
           res.data.map(async (sale) => {
             if (!sale.items || !sale.items.length) return sale;
 
             const populatedItems = await Promise.all(
               sale.items.map(async (item) => {
-                if (typeof item.product === "object" && item.product.name) {
+                if (
+                  item.product &&
+                  typeof item.product === "object" &&
+                  item.product.name
+                ) {
                   return {
                     ...item,
                     name: item.product.name,
                   };
                 }
 
-                try {
-                  const productRes = await axios.get(
-                    `/api/products/${item.product}`,
-                    config
-                  );
-                  return {
-                    ...item,
-                    name: productRes.data.name,
-                  };
-                } catch (err) {
-                  console.error("Failed to load product", item.product);
-                  return { ...item, name: "Unknown" };
+                if (item.product) {
+                  try {
+                    const productRes = await axios.get(
+                      `/api/products/${item.product}`,
+                      config
+                    );
+                    return {
+                      ...item,
+                      name: productRes.data?.name || "Unknown",
+                    };
+                  } catch (err) {
+                    console.error("Failed to load product", item.product);
+                    return { ...item, name: "Unknown" };
+                  }
                 }
+
+                return { ...item, name: "Unknown" };
               })
             );
 
@@ -83,10 +91,14 @@ const SalesHistory = () => {
     ];
 
     const rows = filteredSales.map((sale) => {
-      const formattedDate = new Date(sale.date).toLocaleDateString("en-IN");
+      const formattedDate = sale.date
+        ? new Date(sale.date).toLocaleDateString("en-IN")
+        : "-";
       const productList = sale.items
-        ? sale.items.map((item) => `${item.name} x${item.quantity}`).join(" | ")
-        : `${sale.productName} x${sale.quantity}`;
+        ? sale.items
+            .map((item) => `${item.name || "Unknown"} x${item.quantity || 0}`)
+            .join(" | ")
+        : `${sale.productName || "Unknown"} x${sale.quantity || 0}`;
       const total = sale.totalAmount || sale.total || 0;
 
       return [
@@ -139,7 +151,7 @@ const SalesHistory = () => {
         </div>
         <button
           onClick={handleFilter}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          className="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-600 transition"
         >
           Apply Filter
         </button>
@@ -178,18 +190,31 @@ const SalesHistory = () => {
                       0);
 
                 const productList = sale.items
-                  ? sale.items.map((item) => `${item.name} x${item.quantity}`).join(", ")
-                  : `${sale.productName} x${sale.quantity}`;
+                  ? sale.items
+                      .map(
+                        (item) =>
+                          `${item.name || "Unknown"} x${item.quantity || 0}`
+                      )
+                      .join(", ")
+                  : `${sale.productName || "Unknown"} x${sale.quantity || 0}`;
 
                 return (
                   <tr
                     key={index}
                     className="border-b hover:bg-gray-100 transition duration-200"
                   >
-                    <td className="p-3 text-gray-800">{sale.date || "-"}</td>
-                    <td className="p-3 font-medium">{sale.customerName || "-"}</td>
+                    <td className="p-3 text-gray-800">
+                      {sale.date
+                        ? new Date(sale.date).toLocaleDateString("en-IN")
+                        : "-"}
+                    </td>
+                    <td className="p-3 font-medium">
+                      {sale.customerName || "-"}
+                    </td>
                     <td className="p-3 text-gray-700">{productList}</td>
-                    <td className="p-3 font-semibold text-green-700">₹{total.toFixed(2)}</td>
+                    <td className="p-3 font-semibold text-green-700">
+                      ₹{total.toFixed(2)}
+                    </td>
                     <td className="p-3">
                       {index > 0 ? (
                         isUp ? (
