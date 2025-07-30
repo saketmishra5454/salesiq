@@ -1,105 +1,192 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShoppingCart } from "lucide-react";
+import {
+  ShoppingCart,
+  LayoutDashboard,
+  Package,
+  Users,
+  ReceiptText,
+  BarChart,
+  LogOut,
+  LogIn,
+  UserPlus,
+  Menu,
+  X,
+} from "lucide-react";
 import { toast } from "sonner";
 
 const Navbar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const isLoggedIn = localStorage.getItem("authToken");
   const username = localStorage.getItem("username");
 
   const handleLogout = () => {
-    console.log("Hi")
-    toast("🚪 Do you really want to log out?", {
+    toast("🚪 Ready to log out?", {
+      description: "You'll need to sign in again to access your dashboard.",
       action: {
-        label: "Yes, Logout",
+        label: "Logout",
         onClick: () => {
           localStorage.removeItem("authToken");
           localStorage.removeItem("username");
           navigate("/login");
+          toast.success("Logged out successfully!");
         },
       },
-      cancel: {
-        label: "Cancel",
-      },
+      cancel: { label: "Cancel" },
+      duration: 3000,
+      position: "top-center",
     });
   };
 
   const navItems = [
-    { label: "🏠 Dashboard", path: "/" },
-    { label: "📦 Products", path: "/products" },
-    { label: "👥 Customers", path: "/customers" },
-    { label: "📝 Record Sale", path: "/record-sale" },
-    { label: "📊 Sales History", path: "/sales" }
+    { label: "Dashboard", path: "/", icon: <LayoutDashboard size={18} /> },
+    { label: "Products", path: "/products", icon: <Package size={18} /> },
+    { label: "Customers", path: "/customers", icon: <Users size={18} /> },
+    { label: "Record Sale", path: "/record-sale", icon: <ReceiptText size={18} /> },
+    { label: "Sales History", path: "/sales", icon: <BarChart size={18} /> },
   ];
 
   return (
-    <nav className="bg-gradient-to-r from-blue-700 to-purple-600 text-white shadow-md px-8 py-4 sticky top-0 z-50">
+    <nav className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white shadow-lg px-4 sm:px-6 py-3 sticky top-0 z-50">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
-        {/* Left: Logo */}
-        <div className="flex items-center gap-2">
-          <ShoppingCart size={28} />
-          <h1 className="text-2xl font-bold tracking-wide">SalesIQ</h1>
-        </div>
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2 group">
+          <ShoppingCart
+            size={28}
+            className="text-yellow-400 group-hover:scale-105 transition-transform"
+          />
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 to-amber-300">
+            SalesIQ
+          </h1>
+        </Link>
 
-        {/* Right: Navigation & Auth */}
-        <ul className="flex gap-6 items-center">
-          {/* Main Navigation - only if logged in */}
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="sm:hidden p-2 rounded-md hover:bg-blue-600 transition"
+        >
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* Desktop Navigation */}
+        <ul className="hidden sm:flex items-center gap-6">
           {isLoggedIn &&
             navItems.map((item) => (
               <li key={item.path}>
                 <Link
                   to={item.path}
-                  className={`hover:text-yellow-300 text-lg ${
-                    pathname === item.path ? "underline font-semibold" : ""
-                  }`}
+                  className={`flex items-center gap-1.5 text-sm sm:text-base font-medium transition-colors
+                    hover:text-yellow-200 ${
+                      pathname === item.path ? "text-yellow-300 font-semibold" : ""
+                    }`}
                 >
+                  {item.icon}
                   {item.label}
                 </Link>
               </li>
             ))}
 
-          {/* Show username */}
           {isLoggedIn && username && (
-            <li className="text-sm text-yellow-200 font-semibold">
-              👋 Hi, {username}
+            <li className="text-xs px-3 py-1 bg-yellow-500 text-blue-900 rounded-full font-semibold shadow-sm">
+              👋 {username}
             </li>
           )}
 
-          {/* Auth Controls */}
           <li>
             {isLoggedIn ? (
               <button
                 onClick={handleLogout}
-                className="text-red-200 hover:text-white font-semibold"
+                className="flex items-center gap-1.5 px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-full shadow-md transition-all"
               >
-                🚪 Logout
+                <LogOut size={18} /> Logout
               </button>
             ) : (
-              <>
+              <div className="flex gap-3">
                 <Link
                   to="/login"
-                  className={`hover:text-yellow-300 text-lg ${
-                    pathname === "/login" ? "underline font-semibold" : ""
-                  }`}
+                  className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium transition-colors
+                    ${pathname === "/login" ? "bg-blue-600 text-white" : "bg-blue-700 hover:bg-blue-600"}`}
                 >
-                  🔐 Login
+                  <LogIn size={18} /> Login
                 </Link>
                 <Link
                   to="/register"
-                  className={`ml-4 hover:text-yellow-300 text-lg ${
-                    pathname === "/register" ? "underline font-semibold" : ""
-                  }`}
+                  className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium transition-colors
+                    ${pathname === "/register" ? "bg-purple-600 text-white" : "bg-purple-700 hover:bg-purple-600"}`}
                 >
-                  📝 Register
+                  <UserPlus size={18} /> Register
                 </Link>
-              </>
+              </div>
             )}
           </li>
         </ul>
       </div>
+
+      {/* Mobile Dropdown Menu */}
+      {menuOpen && (
+        <div className="sm:hidden mt-3 bg-blue-700 rounded-lg shadow-lg p-4">
+          <ul className="flex flex-col gap-4">
+            {isLoggedIn &&
+              navItems.map((item) => (
+                <li key={item.path}>
+                  <Link
+                    to={item.path}
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center gap-2 text-sm font-medium transition-colors
+                      hover:text-yellow-200 ${
+                        pathname === item.path ? "text-yellow-300 font-semibold" : "text-white"
+                      }`}
+                  >
+                    {item.icon}
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+
+            {isLoggedIn && username && (
+              <li className="text-xs px-3 py-1 bg-yellow-500 text-blue-900 rounded-full font-semibold shadow-sm text-center">
+                👋 {username}
+              </li>
+            )}
+
+            <li>
+              {isLoggedIn ? (
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    handleLogout();
+                  }}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md shadow-md transition-all"
+                >
+                  <LogOut size={18} /> Logout
+                </button>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  <Link
+                    to="/login"
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors
+                      ${pathname === "/login" ? "bg-blue-600 text-white" : "bg-blue-700 hover:bg-blue-600"}`}
+                  >
+                    <LogIn size={18} /> Login
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors
+                      ${pathname === "/register" ? "bg-purple-600 text-white" : "bg-purple-700 hover:bg-purple-600"}`}
+                  >
+                    <UserPlus size={18} /> Register
+                  </Link>
+                </div>
+              )}
+            </li>
+          </ul>
+        </div>
+      )}
     </nav>
   );
 };

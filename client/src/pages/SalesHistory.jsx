@@ -16,7 +16,6 @@ const SalesHistory = () => {
         const config = { headers: { Authorization: `Bearer ${token}` } };
         const res = await axios.get("/api/sales", config);
 
-        // Map through each sale and populate item names
         const populatedSales = await Promise.all(
           res.data.map(async (sale) => {
             if (!sale.items || !sale.items.length) return sale;
@@ -24,22 +23,12 @@ const SalesHistory = () => {
             const populatedItems = await Promise.all(
               sale.items.map(async (item) => {
                 if (typeof item.product === "object" && item.product.name) {
-                  return {
-                    ...item,
-                    name: item.product.name,
-                  };
+                  return { ...item, name: item.product.name };
                 }
-
                 try {
-                  const productRes = await axios.get(
-                    `/api/products/${item.product}`,
-                    config
-                  );
-                  return {
-                    ...item,
-                    name: productRes.data.name,
-                  };
-                } catch (err) {
+                  const productRes = await axios.get(`/api/products/${item.product}`, config);
+                  return { ...item, name: productRes.data.name };
+                } catch {
                   console.error("Failed to load product", item.product);
                   return { ...item, name: "Unknown" };
                 }
@@ -56,14 +45,15 @@ const SalesHistory = () => {
         console.error("Error loading sales:", err);
       }
     };
+
     fetchSales();
   }, []);
 
   const handleFilter = () => {
     if (!fromDate || !toDate) return;
-
     const from = new Date(fromDate);
     const to = new Date(toDate);
+
     const result = sales.filter((sale) => {
       const saleDate = new Date(sale.date);
       return saleDate >= from && saleDate <= to;
@@ -73,14 +63,7 @@ const SalesHistory = () => {
   };
 
   const downloadCSV = () => {
-    const headers = [
-      "Date",
-      "Customer Name",
-      "Customer Email",
-      "Customer Phone",
-      "Products",
-      "Total",
-    ];
+    const headers = ["Date", "Customer Name", "Customer Email", "Customer Phone", "Products", "Total"];
 
     const rows = filteredSales.map((sale) => {
       const formattedDate = new Date(sale.date).toLocaleDateString("en-IN");
@@ -99,13 +82,12 @@ const SalesHistory = () => {
       ];
     });
 
-    let csvContent =
-      "data:text/csv;charset=utf-8," +
-      [headers, ...rows].map((e) => e.join(",")).join("\n");
+    const csvContent =
+      "data:text/csv;charset=utf-8," + [headers, ...rows].map((e) => e.join(",")).join("\n");
 
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
+    link.href = encodedUri;
     link.setAttribute("download", "sales_report.csv");
     document.body.appendChild(link);
     link.click();
@@ -118,14 +100,15 @@ const SalesHistory = () => {
         📊 Sales History
       </h2>
 
-      <div className="flex items-end gap-4 mb-6 flex-wrap">
+      {/* Filter Section */}
+      <div className="flex flex-wrap items-end gap-4 mb-6">
         <div>
           <label className="block font-medium">From:</label>
           <input
             type="date"
             value={fromDate}
             onChange={(e) => setFromDate(e.target.value)}
-            className="border p-2 rounded shadow-sm"
+            className="border p-2 rounded shadow-sm focus:ring focus:ring-blue-300"
           />
         </div>
         <div>
@@ -134,7 +117,7 @@ const SalesHistory = () => {
             type="date"
             value={toDate}
             onChange={(e) => setToDate(e.target.value)}
-            className="border p-2 rounded shadow-sm"
+            className="border p-2 rounded shadow-sm focus:ring focus:ring-blue-300"
           />
         </div>
         <button
@@ -153,6 +136,7 @@ const SalesHistory = () => {
         )}
       </div>
 
+      {/* Sales Table */}
       {filteredSales.length === 0 ? (
         <p className="text-gray-500">No sales found for this range.</p>
       ) : (
@@ -170,12 +154,13 @@ const SalesHistory = () => {
             <tbody>
               {filteredSales.map((sale, index) => {
                 const total = sale.totalAmount || sale.total || 0;
-                const isUp =
-                  index > 0 &&
-                  total >=
-                    (filteredSales[index - 1].totalAmount ||
+                const prevTotal =
+                  index > 0
+                    ? filteredSales[index - 1].totalAmount ||
                       filteredSales[index - 1].total ||
-                      0);
+                      0
+                    : 0;
+                const isUp = index > 0 && total >= prevTotal;
 
                 const productList = sale.items
                   ? sale.items.map((item) => `${item.name} x${item.quantity}`).join(", ")
@@ -186,10 +171,16 @@ const SalesHistory = () => {
                     key={index}
                     className="border-b hover:bg-gray-100 transition duration-200"
                   >
-                    <td className="p-3 text-gray-800">{sale.date || "-"}</td>
+                    <td className="p-3 text-gray-800">
+                      {sale.date
+                        ? new Date(sale.date).toLocaleDateString("en-IN")
+                        : "-"}
+                    </td>
                     <td className="p-3 font-medium">{sale.customerName || "-"}</td>
                     <td className="p-3 text-gray-700">{productList}</td>
-                    <td className="p-3 font-semibold text-green-700">₹{total.toFixed(2)}</td>
+                    <td className="p-3 font-semibold text-green-700">
+                      ₹{total.toFixed(2)}
+                    </td>
                     <td className="p-3">
                       {index > 0 ? (
                         isUp ? (
