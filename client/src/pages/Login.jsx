@@ -22,7 +22,7 @@ const Login = () => {
       localStorage.setItem("authToken", res.data.token);
       localStorage.setItem("username", res.data.username);
 
-      toast.success("Login successful 🎉 Welcome back to SalesIQ!");
+      toast.success("Login successfully🎉 Welcome SalesIQ!");
       navigate("/");
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed ❌ Please check your credentials.");
@@ -46,41 +46,41 @@ const Login = () => {
 
       <form
         onSubmit={handleLogin}
-        className="relative z-20 bg-white bg-opacity-10 backdrop-filter backdrop-blur-xl border border-white border-opacity-30 shadow-3xl rounded-3xl p-10 w-full max-w-sm mx-4 transform transition-all duration-500 hover:scale-[1.01] overflow-hidden" // Increased padding, rounded corners, new shadow
+        className="relative z-20 bg-white bg-opacity-10 backdrop-filter backdrop-blur-xl border border-white border-opacity-30 shadow-3xl rounded-3xl p-10 w-full max-w-sm mx-4 transform transition-all duration-500 hover:scale-[1.01] overflow-hidden"
       >
         <div className="flex flex-col items-center justify-center mb-8">
-          <ShoppingCart size={52} className="text-amber-400 drop-shadow-lg animate-bounce-subtle" /> {/* Larger icon, subtle bounce */}
-          <h2 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-amber-200 to-amber-400 mt-2">
+          <ShoppingCart size={52} className="text-amber-400 drop-shadow-lg animate-bounce-subtle" />
+          <h2 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-amber-300 to-amber-500">
             SalesIQ
           </h2>
-          <p className="text-gray-200 text-base mt-2 font-light text-center">
+          <p className="text-gray-600 text-base mt-2 font-light text-center">
             Your powerful Sales Management Dashboard
           </p>
         </div>
 
-        <p className="text-white text-xl font-semibold mb-6 text-center">
+        <p className="text-grey text-xl font-bold mb-2 text-center">
           Admin Login
         </p>
 
         <div className="relative mb-5">
-          <User size={22} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300" />
+          <User size={22} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
           <input
             type="text"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-15 text-white placeholder-gray-300 rounded-xl border border-white border-opacity-20 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all duration-200 text-lg shadow-inner-custom" // Custom shadow
+            className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-15 text-gray-600 placeholder-gray-400 rounded-xl border border-white border-opacity-20 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all duration-200 text-lg shadow-inner-custom" // Changed text-white to text-gray-100, placeholder to gray-400
             required
           />
         </div>
         <div className="relative mb-8">
-          <Lock size={22} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300" />
+          <Lock size={22} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-15 text-white placeholder-gray-300 rounded-xl border border-white border-opacity-20 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all duration-200 text-lg shadow-inner-custom" // Custom shadow
+            className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-15 text-gray-600 placeholder-gray-400 rounded-xl border border-white border-opacity-20 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:border-transparent transition-all duration-200 text-lg shadow-inner-custom" // Changed text-white to text-gray-100, placeholder to gray-400
             required
           />
         </div>
@@ -92,9 +92,9 @@ const Login = () => {
           <LogIn size={22} /> Secure Login
         </button>
 
-        <p className="mt-8 text-center text-gray-300 text-opacity-80 text-sm">
+        <p className="mt-8 text-center text-gray-500 text-opacity-80 text-sm">
           New to SalesIQ?{" "}
-          <Link to="/register" className="text-amber-300 hover:underline font-semibold transition-colors">
+          <Link to="/register" className="text-amber-400 hover:underline font-semibold transition-colors">
             Create an Account
           </Link>
         </p>
@@ -118,7 +118,7 @@ const Login = () => {
         .animate-bounce-subtle {
           animation: bounce-subtle 3s infinite ease-in-out;
         }
-        
+
         /* Custom inner shadow for inputs */
         .shadow-inner-custom {
           box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);

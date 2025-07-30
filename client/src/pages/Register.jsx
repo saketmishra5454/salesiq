@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import React from "react"; // Changed from 'react-dom' to 'react'
+import React from "react";
 import { toast, Toaster } from "sonner";
 import { UserPlus, User, Lock, ShoppingCart } from "lucide-react";
 
@@ -12,15 +12,36 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    // Basic frontend validation (optional, but good practice)
+    if (!username || !password) {
+      toast.error("Username and password are required.");
+      return;
+    }
+    if (password.length < 6) { // Example validation
+        toast.error("Password must be at least 6 characters long.");
+        return;
+    }
+
     try {
-      await axios.post("/api/auth/register", {
+      // Ensure the URL is correct relative to your API base
+      // If your API is on a different domain/port, use the full URL:
+      // const res = await axios.post("http://localhost:5000/api/auth/register", { // Example
+      const res = await axios.post("/api/auth/register", {
         username,
         password,
       });
+
+      // You might want to automatically log in the user after registration,
+      // or simply redirect them to login with a success message.
+      // Current behavior (redirect to login) is fine as per your original code.
       toast.success("Registration successful ✅ Welcome to SalesIQ! Please log in.");
       navigate("/login");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Registration failed ❌ Username might be taken or too short.");
+      // Log the full error to the console for more details during development
+      console.error("Registration error:", err);
+
+      // Extract specific message from backend if available, otherwise use a generic one
+      toast.error(err.response?.data?.message || "Registration failed ❌ Please try again or contact support.");
     }
   };
 
@@ -44,40 +65,40 @@ const Register = () => {
       >
         <div className="flex flex-col items-center justify-center mb-8">
           <ShoppingCart size={52} className="text-amber-400 drop-shadow-lg animate-bounce-subtle" />
-          <h2 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-amber-200 to-amber-400 mt-2">
+          <h2 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-amber-300 to-amber-500">
             SalesIQ
           </h2>
-          <p className="text-gray-200 text-base mt-2 font-light text-center">
+          <p className="text-gray-600 text-base mt-2 font-light text-center">
             Your powerful Sales Management Dashboard
           </p>
         </div>
-        <p className="text-white text-xl font-semibold mb-6 text-center">
+        <p className="text-white text-xl font-semibold text-center">
           Create Your Account
         </p>
 
         <div className="relative mb-5">
-          <User size={22} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300" />
+          <User size={22} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-15 text-white placeholder-gray-300 rounded-xl border border-white border-opacity-20 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all duration-200 text-lg shadow-inner-custom"
+            className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-15 text-white placeholder-gray-400 rounded-xl border border-white border-opacity-20 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all duration-200 text-lg shadow-inner-custom"
             required
           />
         </div>
-        <div className="relative mb-8">
-          <Lock size={22} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300" />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-15 text-white placeholder-gray-300 rounded-xl border border-white border-opacity-20 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all duration-200 text-lg shadow-inner-custom"
-            required
-          />
-        </div>
-
+      <div className="relative mb-8">
+                <Lock size={22} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-15 text-gray-600 placeholder-gray-400 rounded-xl border border-white border-opacity-20 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:border-transparent transition-all duration-200 text-lg shadow-inner-custom" // Changed text-white to text-gray-100, placeholder to gray-400
+                  required
+                />
+              </div>
+      
         <button
           type="submit"
           className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-green-700 to-teal-800 text-white font-bold py-4 rounded-xl shadow-lg hover:from-green-800 hover:to-teal-900 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-gray-900 text-lg"
@@ -85,9 +106,9 @@ const Register = () => {
           <UserPlus size={22} /> Register
         </button>
 
-        <p className="mt-8 text-center text-gray-300 text-opacity-80 text-sm">
+        <p className="mt-8 text-center text-gray-400 text-opacity-80 text-sm">
           Already have an account?{" "}
-          <Link to="/login" className="text-amber-300 hover:underline font-semibold transition-colors">
+          <Link to="/login" className="text-amber-400 hover:underline font-semibold transition-colors">
             Login here
           </Link>
         </p>
@@ -111,7 +132,7 @@ const Register = () => {
         .animate-bounce-subtle {
           animation: bounce-subtle 3s infinite ease-in-out;
         }
-        
+
         /* Custom inner shadow for inputs */
         .shadow-inner-custom {
           box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
